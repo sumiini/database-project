@@ -1,4 +1,5 @@
 package dbprojecttest;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -226,7 +227,8 @@ public class PalMaeGimBap {
 	}
 
 	private static void insertPopulation(Statement st) throws SQLException {
-		List<List<String>> poplist = readToList("/Users/Hong Sumin/Documents/카카오톡 받은 파일/population2.csv");
+		List<List<String>> poplist = readToList(
+				"/Users/Hong Sumin/Documents/카카오톡 받은 파일/population2.csv");
 		System.out.println(poplist.size());
 		for (int i = 1; i < poplist.size(); i++) {
 			String insertPopulation = "INSERT INTO POPULATION VALUES(" + Integer.toString(i) + ", "
@@ -291,7 +293,7 @@ public class PalMaeGimBap {
 					s = "SELECT * FROM REGION WHERE region like \'%" + jibun[1] + "%\'";
 					foodTruckStatusSet = st.executeQuery(s);
 					while (foodTruckStatusSet.next()) {
-						System.out.println(foodTruckStatusSet.getString(1));
+						// System.out.println(foodTruckStatusSet.getString(1));
 						String inserFoodTruckStatus = "INSERT INTO FOODTRUCK_STATUS VALUES(" + Integer.toString(pkNum)
 								+ "," + foodTruckStatusSet.getString(1) + ",\'" + foodTruckStatusList.get(i).get(1)
 								+ "\'" // 사업장 명
@@ -299,17 +301,17 @@ public class PalMaeGimBap {
 								+ ",\'" + foodTruckStatusList.get(i).get(9) + "\'" // 소재지도로명
 								+ ",\'" + foodTruckStatusList.get(i).get(10) + "\'" // 소재지지번주소
 								+ ");";
-						System.out.println(inserFoodTruckStatus);
+						// System.out.println(inserFoodTruckStatus);
 						st.executeUpdate(inserFoodTruckStatus);
 						pkNum++;
 						break;
 					}
 				} else {
 					while (foodTruckStatusSet.next()) {
-						System.out.println(foodTruckStatusSet.getString(1));
+						// System.out.println(foodTruckStatusSet.getString(1));
 						String inserFoodTruckStatus = "INSERT INTO FOODTRUCK_STATUS VALUES(" + Integer.toString(pkNum)
 								+ foodTruckStatusSet.getString(1) + ",\'" + foodTruckStatusList.get(i).get(1) + "\'" // 사업장
-																														// 명
+								// 명
 								+ ",\'" + foodTruckStatusList.get(i).get(3) + "\'" // 영업상태명
 								+ ",\'" + foodTruckStatusList.get(i).get(9) + "\'" // 소재지도로명
 								+ ",\'" + foodTruckStatusList.get(i).get(10) + "\'" // 소재지지번주소
@@ -615,7 +617,7 @@ public class PalMaeGimBap {
 			System.out.println("Connecting PostgreSQL database");
 			// JDBC를 이용해 PostgreSQL 서버 및 데이터베이스 연결
 
-			String url = "jdbc:postgresql://localhost/dbproject";
+			String url = "jdbc:postgresql://localhost/dbproject3";
 			String user = "postgres";
 			String password = "sumin8411*";
 
@@ -623,50 +625,57 @@ public class PalMaeGimBap {
 
 			st = conn.createStatement();
 			// 초기화
-//			st.execute("DROP TABLE IF EXISTS MENUS RESTRICT");
-//			st.execute("DROP TABLE IF EXISTS FoodTRUCK_INFOS RESTRICT");
-//			st.execute("DROP TABLE IF EXISTS USING_AREAS RESTRICT");
-//			st.execute("DROP TABLE IF EXISTS USERS RESTRICT");
-//			st.execute("DROP TABLE IF EXISTS FLOATING_INFOS RESTRICT");
-//			st.execute("DROP TABLE IF EXISTS FESTIVAL_INFOS RESTRICT");
-//			st.execute("DROP TABLE IF EXISTS AREAS RESTRICT");
-//			st.execute("DROP TABLE IF EXISTS POPULATION RESTRICT");
-//			st.execute("DROP TABLE IF EXISTS FOODTRUCK_STATUS RESTRICT");
-//			st.execute("DROP TABLE IF EXISTS REGION RESTRICT");
+			//st.execute("DROP TRIGGER IF EXISTS FOODTRUCKSTATUS_INSERT_TRIGGER ON FOODTRUCK_STATUS RESTRICT");
+			//st.execute("DROP function IF EXISTS INSERT_FOODTRUCK() RESTRICT");
+			//st.execute("DROP VIEW IF EXISTS OPENING RESTRICT");
+			//st.execute("DROP TABLE IF EXISTS FESTIVAL_INFOS RESTRICT");
+			//st.execute("DROP TABLE IF EXISTS AREAS RESTRICT");
+			//st.execute("DROP TABLE IF EXISTS POPULATION RESTRICT");
+			//st.execute("DROP TABLE IF EXISTS FOODTRUCK_STATUS RESTRICT");
+			//st.execute("DROP TABLE IF EXISTS REGION RESTRICT");
 
-//			System.out.println(
-//					"Creating USERS, FoodTRUCK_INFOS, MENUS, USING_AREAS, AREAS, FLOATING_INFOS, FESTIVAL_INFO relations");
-//			// 7개의 테이블 생성 : Create table 문 이용
+
+
+//			System.out.println("Creating AREAS, FESTIVAL_INFOS,POPULATION, FOODTRUCK_STATUS,REGION relations");
+//			// 테이블 생성 : Create table 문 이용
 //			String AREAS = "Create Table AREAS(id int, address VARCHAR(50),start_date VARCHAR(10), end_date VARCHAR(10), "
 //					+ "weekday_start_time VARCHAR(10), weekday_end_time VARCHAR(10),"
 //					+ "weekend_start_time VARCHAR(10), weekend_end_time VARCHAR(10),"
 //					+ "money VARCHAR(50), is_alcohol_permitted boolean, count int, primary key(id))";
 //
 //			st.executeUpdate(AREAS);
-//			String CreateUSERS = "Create Table USERS(id INT PRIMARY KEY, user_name VARCHAR(50), is_promotion BOOLEAN)";
-//			st.executeUpdate(CreateUSERS);
-//			String FoodTRUCK_INFOS = "Create Table FoodTRUCK_INFOS(id INT PRIMARY KEY, area_id INT REFERENCES AREAS(id), address VARCHAR(50))";
-//			st.executeUpdate(FoodTRUCK_INFOS);
-//			String MENUS = "Create Table MENUS(id INT PRIMARY KEY, foodtruck_info_id INT REFERENCES FOODTRUCK_INFOS(id), menu VARCHAR(50), price INT)";
-//			st.executeUpdate(MENUS);
-//			String USING_AREAS = "Create Table USING_AREAS(id SERIAL PRIMARY KEY, area_id INT REFERENCES AREAS(id) NOT NULL, user_id INT REFERENCES USERS(id) NOT NULL)";
-//			st.executeUpdate(USING_AREAS);
-//			String FLOATING_INFOS = "Create Table FLOATING_INFOS(address VARCHAR(50) PRIMARY KEY,area_id INT REFERENCES AREAS(id),aDATE VARCHAR(10), aName VARCHAR(50), aCount INT)";
-//			st.executeUpdate(FLOATING_INFOS);
 //			String FESTIVAL_INFO = "Create Table FESTIVAL_INFOS(id INT PRIMARY KEY,fName VARCHAR(50), address VARCHAR(50))";
 //			st.executeUpdate(FESTIVAL_INFO);
 //			String REGION = "Create Table REGION(id INT PRIMARY KEY, region VARCHAR(50));";
 //			st.executeUpdate(REGION);
 //			String POPULATION = "Create Table POPULATION(id INT PRIMARY KEY, region_id INT REFERENCES REGION(id), population int)";
-//			st.executeUpdate(POPULATION);		
+//			st.executeUpdate(POPULATION);
 //			String FOODTRUCK_STATUS = "Create Table FOODTRUCK_STATUS(id INT PRIMARY KEY, region_id INT REFERENCES REGION(id), name VARCHAR(50), status VARCHAR(20), street_name_address VARCHAR(100), lot_address VARCHAR(100));";
 //			st.executeUpdate(FOODTRUCK_STATUS);
+
 //			insertArea(st);
 //			insertFestival(st);
-//			insertFoodTruckStatus(st);
 //			insertRegion(st);
+//			insertFoodTruckStatus(st);
 //			insertPopulation(st);
 
+			String OPENING_VIEW = "create view opening as\n"
+					+ "select id,region_id,name,street_name_address,lot_address\n" + "from FOODTRUCK_STATUS\n"
+					+ "where status = '영업';";
+			//st.executeUpdate(OPENING_VIEW);
+
+			String CREATE_FUNCTION = "CREATE OR REPLACE FUNCTION INSERT_FOODTRUCK() RETURNS TRIGGER AS $$\n" + "BEGIN\n"
+					+ "    update foodtruck_status set region_id = COALESCE((select id from region where region.region\n"
+					+ "											 like concat('%',split_part(foodtruck_status.lot_address,' ',3),'%') limit 1)\n"
+					+ "													,(select id from region where region.region\n"
+					+ "											 like concat('%',split_part(foodtruck_status.lot_address,' ',2),'%') limit 1)) ;\n"
+					+ "	RETURN new;\n" + "END;\n" + "$$ LANGUAGE 'plpgsql';";
+			st.executeUpdate(CREATE_FUNCTION);
+
+			String CREATE_TRIGGER = "CREATE TRIGGER FOODTRUCKSTATUS_INSERT_TRIGGER AFTER\n"
+					+ "INSERT ON \"foodtruck_status\" EXECUTE PROCEDURE INSERT_FOODTRUCK();";
+
+			//st.executeUpdate(CREATE_TRIGGER);
 			System.out.println("*************************************************************************");
 			System.out.println("*\t\t\t\t\t\t\t\t\t*");
 			System.out.println("*\t\t\t팔매김밥조 장지석 고예준 홍수민\t\t\t\t*");
@@ -675,331 +684,437 @@ public class PalMaeGimBap {
 			System.out.println("*\t\t\t\t\t\t\t\t\t*");
 			System.out.println("*************************************************************************");
 
-			while(true) {
-                System.out.println();
-                System.out.println("*********************************************************************");
-                System.out.println();
-                
-                System.out.println("원하는 버전을 선택하시오.");
-                System.out.println("1)고객 버전");
-                System.out.println("2)관리자 버전");
-                
-                int version = scan.nextInt();
-                  
-                if(version==1) {
-                   System.out.println("고객 버전을 선택하였습니다.");
-                   
-                   System.out.println("[menu]");
-                     System.out.println("0)종료");
-                     System.out.println("1)푸드트럭 장소 검색");
-                     System.out.println("2)전국 축제데이터 검색");
-                     System.out.println("3)상권분석");
-                     System.out.print("입력 : ");
-                     int menu = scan.nextInt();
-                     System.out.println();
-                     
-                     if(menu == 0) {
-                        break;
-                     }
-                     else if(menu == 1) {  
-                       ResultSet r2 = null;
-                       PreparedStatement p2 = null;
-                       ResultSet r3 = null;
-                       PreparedStatement p3 = null;
-                       
-                        Scanner scan2 = new Scanner(System.in);
-                        System.out.println("푸드트럭 장소검색입니다.");
-                         System.out.print("검색할 장소를 입력하세요(광역시, 도):");
-                         String cityName1 = scan2.nextLine();
-                         System.out.println(cityName1+" 을(를) 입력하였습니다.");
-                         System.out.println();
-                         System.out.print("검색할 장소를 입력하세요(구,시 ):");
-                         String cityName2 = scan2.nextLine();
-                         System.out.println(cityName2+" 을(를) 입력하였습니다.");
-                         System.out.println();
-                         System.out.print("주류 판매를 하실건가요? (Y/N) :");
-                         String alcohol = scan2.nextLine();
-                         System.out.println(alcohol+" 을(를) 입력하였습니다.");
-                         System.out.println();
-                         
-                         String addressR, feeR, floating_numR, week_start_timeR, week_end_timeR,
-                         weekend_start_timeR, weekend_end_timeR;
-                         String festival_nameR, festival_addressR;
-                     boolean alcoholR;
-                         
-                         
-                         String queryAdd = "select address, weekday_start_time, weekday_end_time, "
-                               + "weekend_start_time, weekend_end_time,money,is_alcohol_permitted"
-                             + " from AREAS"
-                             + " where is_alcohol_permitted = ? and address like ? || '%' and address like '%' || ? || '%' limit 6;";
-                         p = conn.prepareStatement(queryAdd);
-                       p.clearParameters();
-                       if(alcohol == "Y") {
-                          p.setBoolean(1, true);
-                       }else {
-                          p.setBoolean(1, false);
-                       }
-                       p.setString(2, cityName1);   
-                       p.setString(3, cityName2);
-                       r = p.executeQuery();
-                       
-                       String queryFest = "select fName, address"
-                             + " from FESTIVAL_INFOS"
-                             + " where address like ? || '%' and address like '%' || ? || '%' limit 6;";
-                         p2 = conn.prepareStatement(queryFest);
-                       p2.clearParameters();
-                       p2.setString(1, cityName1);   
-                       p2.setString(2, cityName2);
-                       r2 = p2.executeQuery();
-                       
-                       int pop=0;
+			while (true) {
+				System.out.println();
+				System.out.println("*********************************************************************");
+				System.out.println();
 
-                       String queryPop = "select sum(population) from POPULATION join region on region.id = population.region_id where region.region like '%"+cityName2+"%'";
-	                	p3 = conn.prepareStatement(queryPop);
-	        			r3 = p3.executeQuery();
-	        			while(r3.next()) {
-	        				pop = r3.getInt(1);
-	        			}
-                       
-       //cityName2
-                       
-                       
-                       
-                       System.out.println("=====================================================================");
-                       if(r.next()==false) {
-                          System.out.println("푸드트럭 허가구역이 없습니다.");
-                       }
-                       else {
-                          System.out.println("[푸드트럭 허가구역]");
-                          int cnt = 1;
-                          do {
-                             addressR = r.getString(1);
-                             week_start_timeR = r.getString(2);
-                             week_end_timeR = r.getString(3);
-                             weekend_start_timeR = r.getString(4);
-                             weekend_end_timeR = r.getString(5);
-                             feeR = r.getString(6);
-                             alcoholR = r.getBoolean(7);   
-                                 
-                             System.out.println();
-                             System.out.printf("%d 번\n",cnt);
-                             System.out.println("푸드트럭 존 주소이름 :"+addressR);
-                             System.out.println("사용료 :" + feeR );
-                             System.out.println("푸드트럭 영업 가능 시간(평일):" + week_start_timeR+"-"+week_end_timeR);
-                             System.out.println("푸드트럭 영업 가능 시간(주말):"+weekend_start_timeR+"-"+weekend_end_timeR);
-                             if(alcoholR == true) {
-                                System.out.println("주류 판매 가능 여부 : Y");
-                             }
-                                 else {
-                                    System.out.println("주류 판매 가능 여부 : N");
-                                 }
-                             cnt++;
-                           } while(r.next());
-                       }
+				System.out.println("원하는 버전을 선택하시오.");
+				System.out.println("1)고객 버전");
+				System.out.println("2)관리자 버전");
 
-                           
+				int version = scan.nextInt();
+
+				if (version == 1) {
+					System.out.println("고객 버전을 선택하였습니다.");
+
+					System.out.println("[menu]");
+					System.out.println("0)종료");
+					System.out.println("1)푸드트럭 장소 검색");
+					System.out.println("2)전국 축제데이터 검색");
+					System.out.println("3)푸드트럭 현황 조회");
+					System.out.println("4)지역별 인구수 조회");
+					System.out.print("입력 : ");
+					int menu = scan.nextInt();
+					System.out.println();
+
+					if (menu == 0) {
+						break;
+					} else if (menu == 1) {
+						ResultSet r2 = null;
+						PreparedStatement p2 = null;
+						ResultSet r3 = null;
+						PreparedStatement p3 = null;
+
+						Scanner scan2 = new Scanner(System.in);
+						System.out.println("푸드트럭 장소검색입니다.");
+						System.out.print("검색할 장소를 입력하세요(광역시, 도):");
+						String cityName1 = scan2.nextLine();
+						System.out.println(cityName1 + " 을(를) 입력하였습니다.");
+						System.out.println();
+						System.out.print("검색할 장소를 입력하세요(구,시 ):");
+						String cityName2 = scan2.nextLine();
+						System.out.println(cityName2 + " 을(를) 입력하였습니다.");
+						System.out.println();
+						System.out.print("주류 판매를 하실건가요? (Y/N) :");
+						String alcohol = scan2.nextLine();
+						System.out.println(alcohol + " 을(를) 입력하였습니다.");
+						System.out.println();
+
+						String addressR, feeR, floating_numR, week_start_timeR, week_end_timeR, weekend_start_timeR,
+								weekend_end_timeR;
+						String festival_nameR, festival_addressR;
+						boolean alcoholR;
+
+						String queryAdd = "select address, weekday_start_time, weekday_end_time, "
+								+ "weekend_start_time, weekend_end_time,money,is_alcohol_permitted" + " from AREAS"
+								+ " where is_alcohol_permitted = ? and address like ? || '%' and address like '%' || ? || '%' limit 6;";
+						p = conn.prepareStatement(queryAdd);
+						p.clearParameters();
+						if (alcohol == "Y") {
+							p.setBoolean(1, true);
+						} else {
+							p.setBoolean(1, false);
+						}
+						p.setString(2, cityName1);
+						p.setString(3, cityName2);
+						r = p.executeQuery();
+
+						String queryFest = "select fName, address" + " from FESTIVAL_INFOS"
+								+ " where address like ? || '%' and address like '%' || ? || '%' limit 6;";
+						p2 = conn.prepareStatement(queryFest);
+						p2.clearParameters();
+						p2.setString(1, cityName1);
+						p2.setString(2, cityName2);
+						r2 = p2.executeQuery();
+
+						int pop = 0;
+
+						String queryPop = "select sum(population) from POPULATION join region on region.id = population.region_id where region.region like '%"
+								+ cityName2 + "%'";
+						p3 = conn.prepareStatement(queryPop);
+						r3 = p3.executeQuery();
+						while (r3.next()) {
+							pop = r3.getInt(1);
+						}
+
+						System.out.println("=====================================================================");
+						if (r.next() == false) {
+							System.out.println("푸드트럭 허가구역이 없습니다.");
+						} else {
+							System.out.println("[푸드트럭 허가구역]");
+							int cnt = 1;
+							do {
+								addressR = r.getString(1);
+								week_start_timeR = r.getString(2);
+								week_end_timeR = r.getString(3);
+								weekend_start_timeR = r.getString(4);
+								weekend_end_timeR = r.getString(5);
+								feeR = r.getString(6);
+								alcoholR = r.getBoolean(7);
+
+								System.out.println();
+								System.out.printf("%d 번\n", cnt);
+								System.out.println("푸드트럭 존 주소이름 :" + addressR);
+								System.out.println("사용료 :" + feeR);
+								System.out.println("푸드트럭 영업 가능 시간(평일):" + week_start_timeR + "-" + week_end_timeR);
+								System.out
+										.println("푸드트럭 영업 가능 시간(주말):" + weekend_start_timeR + "-" + weekend_end_timeR);
+								if (alcoholR == true) {
+									System.out.println("주류 판매 가능 여부 : Y");
+								} else {
+									System.out.println("주류 판매 가능 여부 : N");
+								}
+								cnt++;
+							} while (r.next());
+						}
+
+						System.out.println();
+
+						System.out.println("---------------------------------------------------------------------");
+
+						if (r2.next() == false) {
+							System.out.println("문화 축제 정보가 없습니다.");
+						} else {
+
+							System.out.println("[문화 축제 정보]");
+							do {
+								festival_nameR = r2.getString(1);
+								festival_addressR = r2.getString(2);
+								System.out.println("축제 이름 : " + festival_nameR);
+								System.out.println("주소 : " + festival_addressR);
+								System.out.println();
+							} while (r2.next());
+						}
+
+						System.out.println("——————————————————————————————————");
+						System.out.println(cityName1 + " " + cityName2 + " 인구 수 : " + Integer.toString(pop) + "명");
+						System.out.println("=====================================================================");
+						System.out.println();
+
+					}
+
+					else if (menu == 2) {
+						System.out.println("전국 축제 데이터 검색입니다.");
+						System.out.print("검색할 장소를 입력하세요. : ");
+						Scanner scan2 = new Scanner(System.in);
+						String location = scan2.nextLine();
+
+						// 도
+						System.out.println();
+						System.out.println(location + "을(를) 입력하였습니다.");
+
+						System.out.print("축제 이름을 입력하시오. : ");
+						Scanner scan3 = new Scanner(System.in);
+						String festival_name = scan3.nextLine();
+
+						p = conn.prepareStatement(
+								"select distinct fname,address from FESTIVAL_INFOS where address like '%" + location
+										+ "%' and fname like '%" + festival_name + "%'");
+						r = p.executeQuery();
+
+						ResultSetMetaData rsmd;
+						rsmd = r.getMetaData();
+
+						System.out.println();
+						int col3 = rsmd.getColumnCount();
+						System.out.println("=====================================================================");
+						int f_cnt = 0;
+						System.out.println("[문화 축제 정보]");
+						System.out.println();
+						while (r.next()) {
+							f_cnt++;
+							for (int i = 1; i <= col3; i++) {
+								if (i == 1) {
+									System.out.print("축제이름 : ");
+								}
+
+								if (i == 2) {
+									System.out.print("주소 : ");
+								}
+								System.out.println(r.getObject(i) + " ");
+
+							}
+							System.out.println();
+						}
+						if (f_cnt == 0) {
+							System.out.println("문화 축제 데이터가 없습니다.");
+						}
+
+						System.out.println("---------------------------------------------------------------------");
+
+						p = conn.prepareStatement("select address from AREAS where address like '%" + location + "%'");
+						r = p.executeQuery();
+
+						rsmd = r.getMetaData();
+
+						int col4 = rsmd.getColumnCount();
+						int fd_cnt = 0;
+						System.out.println("[푸드트럭 허가구역]");
+						System.out.println();
+						while (r.next()) {
+							fd_cnt++;
+							for (int i = 1; i <= col4; i++) {
+								System.out.print("푸드트럭 허가구역 주소 : ");
+								System.out.println(r.getObject(i) + " ");
+							}
+						}
+						if (fd_cnt == 0) {
+							System.out.println("푸드트럭 허가구역이 없습니다.");
+						}
+
+						System.out.println("---------------------------------------------------------------------");
+
+						p = conn.prepareStatement(
+								"select sum(population) from population join region on region.id = population.region_id where region.region like '%"
+										+ location + "%'");
+						r = p.executeQuery();
+
+						rsmd = r.getMetaData();
+
+						int col5 = rsmd.getColumnCount();
+						System.out.println();
+						while (r.next()) {
+							for (int i = 1; i <= col5; i++) {
+								System.out.print(location + "인구수 : ");
+								System.out.println(r.getObject(i) + " ");
+							}
+						}
+
+						System.out.println("=====================================================================");
+
+					} else if (menu == 3) {
+						System.out.println("영업중인 푸드트럭 현황 조회입니다.");
+						Scanner scan2 = new Scanner(System.in);
+						System.out.print("검색할 장소를 입력하세요(도):");
+						String cityName1 = scan2.nextLine();
+						System.out.println(cityName1 + " 을(를) 입력하였습니다.");
+						System.out.println();
+						System.out.print("검색할 장소를 입력하세요(시,군,구):");
+						String cityName2 = scan2.nextLine();
+						System.out.println(cityName2 + " 을(를) 입력하였습니다.");
+
+						String name_R, lot_address_R;
+
+						String queryAdd = "select name,lot_address" + " from opening"
+								+ " where lot_address like ? || '%' and lot_address like '%' || ? || '%' limit 6;";
+						p = conn.prepareStatement(queryAdd);
+						p.clearParameters();
+						p.setString(1, cityName1);
+						p.setString(2, cityName2);
+						r = p.executeQuery();
+
+						System.out.println("=====================================================================");
+						if (r.next() == false) {
+							System.out.println("해당 지역에 운영중인 푸드트럭이 없습니다.");
+						} else {
+							System.out.printf("[(%s %s)의 운영중인 푸드트럭]\n", cityName1, cityName2);
+							do {
+								name_R = r.getString(1);
+								lot_address_R = r.getString(2);
+
+								System.out.println();
+								System.out.println("푸드트럭 이름 : " + name_R);
+								System.out.println("운영 장소 :" + lot_address_R);
+
+							} while (r.next());
+						}
+
+						System.out.println();
+
+						System.out.println("=====================================================================");
+						System.out.println();
+
+					}
+					else if(menu==4) {
+						System.out.println("지역별 인구수 조회 모드를 선택하셨습니다.");
+						System.out.println("인구 수를 조회 할 지역을 입력하시오.");
+						Scanner scan2 = new Scanner(System.in);
+						String reg = scan2.nextLine();
+						//select sum(population) from population join region on population.id=region.id where region like'%서울특별시 중구%';
+						System.out.println(reg);
+						p = conn.prepareStatement("select sum(population) from population join region on population.id=region.id where region like '%"+reg+"%'");
+						r = p.executeQuery();
+						
+						System.out.println("["+reg+"인구수]");
                         System.out.println();
-                         
-                       System.out.println("---------------------------------------------------------------------");
-                       
-                    
-                       
-                         if(r2.next()==false) {
-                            System.out.println("문화 축제 정보가 없습니다.");
-                         }
-                         else {
-          
-                            System.out.println("[문화 축제 정보]");
-                            do{
-                                festival_nameR = r2.getString(1);
-                                festival_addressR = r2.getString(2);
-                                 System.out.println("축제 이름 : " +festival_nameR);
-                                 System.out.println("주소 : " + festival_addressR);
-                                 System.out.println();
-                             } while(r2.next());
-                         }
-                         
-                       System.out.println("——————————————————————————————————");
-                       System.out.println(cityName1+" "+cityName2+" 인구 수 : "+ Integer.toString(pop)+"명");
-                       System.out.println("=====================================================================");
-                       System.out.println();
-                       
-                     }
-                     
-                     
-                     else if(menu == 2) {
-                             System.out.println("전국 축제 데이터 검색입니다.");
-                              System.out.print("검색할 장소를 입력하세요. : ");
-                              Scanner scan2 = new Scanner(System.in);
-                              String location=scan2.nextLine();
-                              
-                              //도
-                              System.out.println();
-                              System.out.println(location+"을(를) 입력하였습니다.");
-                              
-                              System.out.print("축제 이름을 입력하시오. : ");
-                              Scanner scan3 = new Scanner(System.in);
-                              String festival_name=scan3.nextLine();
-                              
-                             p = conn.prepareStatement("select distinct fname,address from FESTIVAL_INFOS where address like '%"+location+"%' and fname like '%"+festival_name+"%'");
-                             r=p.executeQuery();
-                             
-                             ResultSetMetaData rsmd;
-                             rsmd=r.getMetaData();
-                             
-                             System.out.println();
-                             int col3 = rsmd.getColumnCount();
-                             System.out.println("=====================================================================");
-                             int f_cnt=0;
-                             System.out.println("[문화 축제 정보]");
-                             System.out.println();
-                             while(r.next()) {
-                                f_cnt++;
-                                for(int i=1;i<=col3;i++) {
-                                   if(i==1) {
-                                      System.out.print("축제이름 : ");
-                                   }
-                                   
-                                   if(i==2) {
-                                      System.out.print("주소 : ");
-                                   }
-                                   System.out.println(r.getObject(i)+" ");
-                                   
-                                }
-                                System.out.println();
-                             }
-                             if(f_cnt==0) {
-                                System.out.println("문화 축제 데이터가 없습니다.");
-                             }
-                             
-                             System.out.println("---------------------------------------------------------------------");
-                             
-                             p = conn.prepareStatement("select address from AREAS where address like '%"+location+"%'");
-                             r=p.executeQuery();
-
-                             rsmd=r.getMetaData();
-                             
-                             int col4 = rsmd.getColumnCount();
-                             int fd_cnt=0;
-                             System.out.println("[푸드트럭 허가구역]");
-                             System.out.println();
-                             while(r.next()) {
-                                fd_cnt++;
-                                for(int i=1;i<=col4;i++) {
-                                   System.out.print("푸드트럭 허가구역 주소 : ");
-                                   System.out.println(r.getObject(i)+" ");
-                                }
-                             }
-                             if(fd_cnt==0) {
-                                System.out.println("푸드트럭 허가구역이 없습니다.");
-                             }
-                             
-                             System.out.println("---------------------------------------------------------------------");
-                             
-                             
-                             p = conn.prepareStatement("select sum(population) from population join region on region.id = population.region_id where region.region like '%"+location+"%'");
-                             r=p.executeQuery();
-
-                             rsmd=r.getMetaData();
-                             
-                             int col5 = rsmd.getColumnCount();
-                             System.out.println();
-                             while(r.next()) {
-                                for(int i=1;i<=col5;i++) {
-                                   System.out.print(location+"인구수 : ");
-                                   System.out.println(r.getObject(i)+" ");
-                                }
-                             }
-                                   
-                             System.out.println("=====================================================================");
-                
-                                 
-                          }
-               
-                }
-                
-                else if(version==2) {
-                   System.out.println("관리자 버전을 선택하였습니다.");
-                   System.out.println("원하는 번호를 입력하시오.");
-                   System.out.println("1)푸드트럭 정보 관리");
-                   System.out.println("2)문화축제 정보 관리");
-                   
-                   int adminstate=scan.nextInt();
-                   
-                   if(adminstate==1) {
-                      System.out.println("푸드트럭 정보 관리를 선택하셨습니다.");
-                      System.out.println("정보쭈르르르르ㅡ르르");
-                      System.out.println("1)푸드트럭 정보 추가");
-                      System.out.println("2)푸드트럭 정보 수정");
-                      System.out.println("3)푸드트럭 정보 삭제");
-                      
-                      
-                      
-                   }
-                   else if(adminstate==2) {
-                      System.out.println("문화축제 정보 관리를 선택하셨습니다.");
-                      p = conn.prepareStatement("select * from FESTIVAL_INFOS");
-                      r=p.executeQuery();
-                             
-                          ResultSetMetaData rsmd;
-                          rsmd=r.getMetaData();
-                             
-                          System.out.println();
-                          int cu_col = rsmd.getColumnCount();
-                          System.out.println("=====================================================================");
+                        
+                        ResultSetMetaData rsmd;
+                        rsmd=r.getMetaData();
+                        
+                        int p_col = rsmd.getColumnCount();
+                        while(r.next()) {
                           
-                          System.out.println("[문화 축제 정보]");
-                          System.out.println();
-                          int fcnt=-1;
-                          while(r.next()) {
-                        	 fcnt++;
-                             for(int i=1;i<=cu_col;i++) {
-                                if(i==1) {
-                                   System.out.print("축제이름 : ");
-                                }
-                                   
-                                if(i==2) {
-                                   System.out.print("주소 : ");
-                                }
-                                System.out.println(r.getObject(i)+" ");
-                                   
-                             }
-                             System.out.println();
-                          }
-                          fcnt++;
-                          System.out.println("=====================================================================");
-                      System.out.println("1)문화축제 정보 추가");
-                      System.out.println("2)문화축제 정보 수정");
-                      System.out.println("3)문화축제 정보 삭제");
-                      
-                      int ct_infos=scan.nextInt();
-                      
-                      if(ct_infos==1) {
-                         System.out.println("문화축제 정보 추가모드 입니다.");
-                         System.out.println("정보를 기입하시오.");
-                         System.out.println();
-                         System.out.println("축제 이름 :");
-                         String fst_name=scan.next();
-                         
-                         System.out.println("축제 개최 주소 :");
-                         String fst_addr=scan.next();
-                         
-                         st.executeUpdate("insert into FESTIVAL_INFOS values("+fcnt+",'"+fst_name+"','"+fst_addr+"')");
-                         System.out.println("insert into FESTIVAL_INFOS values("+fcnt+",'"+fst_name+"','"+fst_addr+"')");
-                         //p.executeUpdate();
-                         
-                         
-                      }
-                      else if(ct_infos==2) {
-                    	  System.out.println("");
-                      }
-                   }
-                }
-                
-                
-                
-                  
-               }
+                           for(int i=1;i<=p_col;i++) {
+                              if(i==1) {
+                                 System.out.print(reg+" : ");
+                              }
+                              System.out.println(r.getObject(i)+" ");
+                                 
+                           }
+                           System.out.println();
+                        }
+						
+						
+					}
+
+				}
+
+				else if (version == 2) {
+					System.out.println("관리자 버전을 선택하였습니다.");
+					System.out.println("원하는 번호를 입력하시오.");
+					System.out.println("1)푸드트럭 현황 관리");
+					System.out.println("2)문화축제 정보 관리");
+					System.out.println("3)지역 업데이트");
+
+					int adminstate = scan.nextInt();
+
+					if (adminstate == 1) {
+						System.out.println("푸드트럭 현황 추가/삭제/수정하기 모드입니다. \n");
+
+						System.out.println("---------------------------------------------------------------------");
+						System.out.println("다음은 푸드트럭 현황 정보입니다. ");
+
+						p = conn.prepareStatement("select * from FOODTRUCK_STATUS");
+						r = p.executeQuery();
+
+						int pid, region_id;
+						String name, status, street_name_address, lot_address;
+
+						System.out.println("(pid,region_id,name,status,street_name_address,lot_address)");
+
+						while (r.next()) {
+							pid = r.getInt(1);
+							region_id = r.getInt(2);
+							name = r.getString(3);
+							status = r.getString(4);
+							street_name_address = r.getString(5);
+							lot_address = r.getString(6);
+
+							System.out.printf("|%-4d|%-4d|%-20s|%-20s|%-20s\n", pid, region_id, name, status,
+									street_name_address, lot_address);
+						}
+
+						System.out.println("1) 허가 구역 추가하기");
+						System.out.println("2) 허가 구역 삭제하기 ");
+						System.out.println("3) 허가 구역 수정하기 ");
+						System.out.println("4) 첫 화면으로 돌아가기 ");
+						System.out.print("입력 : ");
+
+						int crud = scan.nextInt();
+						System.out.println();
+
+						if (crud == 1) {
+							System.out.println("푸드트럭 이름을 입력하세요 ");
+
+						} else if (crud == 2) {
+
+						} else if (crud == 3) {
+
+						} else {
+							continue;
+						}
+
+					} else if(adminstate==2) {
+                        System.out.println("문화축제 정보 관리를 선택하셨습니다.");
+                        p = conn.prepareStatement("select * from FESTIVAL_INFOS");
+                        r=p.executeQuery();
+                        
+                            ResultSetMetaData rsmd;
+                            rsmd=r.getMetaData();
+                               
+                            System.out.println();
+                            int cu_col = rsmd.getColumnCount();
+                            System.out.println("=====================================================================");
+                            
+                            System.out.println("[문화 축제 정보]");
+                            System.out.println();
+                            int fcnt=-1;
+                            while(r.next()) {
+                              fcnt++;
+                               for(int i=1;i<=cu_col;i++) {
+                                  if(i==2) {
+                                     System.out.print("축제이름 : ");
+                                  }
+                                     
+                                  if(i==3) {
+                                     System.out.print("주소 : ");
+                                  }
+                                  System.out.println(r.getObject(i)+" ");
+                                     
+                               }
+                               System.out.println();
+                            }
+                            fcnt++;
+                            System.out.println("=====================================================================");
+                        System.out.println("1)문화축제 정보 추가");
+                        System.out.println("2)문화축제 정보 삭제");
+                        
+                        int ct_infos=scan.nextInt();
+                        
+                        if(ct_infos==1) {
+                           System.out.println("문화축제 정보 추가모드 입니다.");
+                           System.out.println("정보를 기입하시오.");
+                           System.out.println();
+                           System.out.println("축제 이름 :");
+                           String fst_name=scan.next();
+                           
+                           System.out.println("축제 개최 주소 :");
+                           String fst_addr=scan.next();
+                           
+                           st.executeUpdate("insert into FESTIVAL_INFOS values("+fcnt+",'"+fst_name+"','"+fst_addr+"')");
+                           System.out.println("insert into FESTIVAL_INFOS values("+fcnt+",'"+fst_name+"','"+fst_addr+"')");
+                           //p.executeUpdate();
+                           
+                           
+                        }
+                        else if(ct_infos==2) {
+                           System.out.println("문화축제 정보 삭제모드입니다.");
+                           System.out.println("삭제할 문화축제 이름을 기입하시오.");
+                           System.out.println();
+                           System.out.println("축제 이름 :");
+                           String fst_delete_name=scan.next();
+                           
+                           st.executeUpdate("delete from FESTIVAL_INFOS where fname='"+fst_delete_name+"'");
+                           
+                        }
+					}
+					else if(adminstate==3) {
+						System.out.println("지역 업데이트 모드입니다.");
+					}
+				}
+
+			}
 
 		} catch (SQLException ex) {
 			throw ex;
