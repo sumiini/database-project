@@ -228,11 +228,12 @@ public class PalMaeGimBap {
 
 	private static void insertPopulation(Statement st) throws SQLException {
 		List<List<String>> poplist = readToList(
-				"/Users/Hong Sumin/Documents/카카오톡 받은 파일/population2.csv");
-		System.out.println(poplist.size());
+				"C:/Users/Hong Sumin/Documents/카카오톡 받은 파일/population2.csv");
+		//System.out.println(poplist.size());
 		for (int i = 1; i < poplist.size(); i++) {
-			String insertPopulation = "INSERT INTO POPULATION VALUES(" + Integer.toString(i) + ", "
+			String insertPopulation = "INSERT INTO POPULATION VALUES(default"+", "
 					+ Integer.toString(i) + "," + poplist.get(i).get(1) + ");";
+			
 			st.executeUpdate(insertPopulation);
 		}
 	}
@@ -272,7 +273,7 @@ public class PalMaeGimBap {
 				"경상남도 거창군", "경상남도 합천군", "제주도 제주시", "제주도 서귀포시" };
 
 		for (int i = 0; i < ls.length; i++) {
-			String insertRegion = "INSERT INTO REGION VALUES(" + Integer.toString(i + 1) + ", \'" + ls[i] + "\');";
+			String insertRegion = "INSERT INTO REGION VALUES(default" + ", \'" + ls[i] + "\');";
 			st.executeUpdate(insertRegion);
 		}
 
@@ -280,8 +281,8 @@ public class PalMaeGimBap {
 
 	private static void insertFoodTruckStatus(Statement st) throws SQLException {
 		List<List<String>> foodTruckStatusList = readToList(
-				"/Users/Hong Sumin/Documents/카카오톡 받은 파일/foodTruckStatus.csv");
-		System.out.println(foodTruckStatusList.size());
+				"C:/Users/Hong Sumin/Documents/카카오톡 받은 파일/foodTruckStatus.csv");
+		//System.out.println(foodTruckStatusList.size());
 		int pkNum = 1;
 		for (int i = 1; i < foodTruckStatusList.size(); i++) {
 
@@ -293,15 +294,13 @@ public class PalMaeGimBap {
 					s = "SELECT * FROM REGION WHERE region like \'%" + jibun[1] + "%\'";
 					foodTruckStatusSet = st.executeQuery(s);
 					while (foodTruckStatusSet.next()) {
-						// System.out.println(foodTruckStatusSet.getString(1));
-						String inserFoodTruckStatus = "INSERT INTO FOODTRUCK_STATUS VALUES(" + Integer.toString(pkNum)
-								+ "," + foodTruckStatusSet.getString(1) + ",\'" + foodTruckStatusList.get(i).get(1)
-								+ "\'" // 사업장 명
-								+ ",\'" + foodTruckStatusList.get(i).get(3) + "\'" // 영업상태명
-								+ ",\'" + foodTruckStatusList.get(i).get(9) + "\'" // 소재지도로명
-								+ ",\'" + foodTruckStatusList.get(i).get(10) + "\'" // 소재지지번주소
-								+ ");";
-						// System.out.println(inserFoodTruckStatus);
+						String inserFoodTruckStatus = "INSERT INTO FOODTRUCK_STATUS VALUES(default"
+						+ "," + foodTruckStatusSet.getString(1) + ",\'" + foodTruckStatusList.get(i).get(1)
+						+ "\'" // 사업장 명
+						+ ",\'" + foodTruckStatusList.get(i).get(3) + "\'" // 영업상태명
+						+ ",\'" + foodTruckStatusList.get(i).get(9) + "\'" // 소재지도로명
+						+ ",\'" + foodTruckStatusList.get(i).get(10) + "\'" // 소재지지번주소
+						+ ");";
 						st.executeUpdate(inserFoodTruckStatus);
 						pkNum++;
 						break;
@@ -309,13 +308,15 @@ public class PalMaeGimBap {
 				} else {
 					while (foodTruckStatusSet.next()) {
 						// System.out.println(foodTruckStatusSet.getString(1));
-						String inserFoodTruckStatus = "INSERT INTO FOODTRUCK_STATUS VALUES(" + Integer.toString(pkNum)
-								+ foodTruckStatusSet.getString(1) + ",\'" + foodTruckStatusList.get(i).get(1) + "\'" // 사업장
-								// 명
-								+ ",\'" + foodTruckStatusList.get(i).get(3) + "\'" // 영업상태명
-								+ ",\'" + foodTruckStatusList.get(i).get(9) + "\'" // 소재지도로명
-								+ ",\'" + foodTruckStatusList.get(i).get(10) + "\'" // 소재지지번주소
-								+ ");";
+						
+						String inserFoodTruckStatus = "INSERT INTO FOODTRUCK_STATUS VALUES(default"
+						+ "," + foodTruckStatusSet.getString(1) + ",\'" + foodTruckStatusList.get(i).get(1)
+						+ "\'" // 사업장 명
+						+ ",\'" + foodTruckStatusList.get(i).get(3) + "\'" // 영업상태명
+						+ ",\'" + foodTruckStatusList.get(i).get(9) + "\'" // 소재지도로명
+						+ ",\'" + foodTruckStatusList.get(i).get(10) + "\'" // 소재지지번주소
+						+ ");";
+
 						st.executeUpdate(inserFoodTruckStatus);
 						pkNum++;
 						break;
@@ -330,13 +331,47 @@ public class PalMaeGimBap {
 		int count = 0;
 		for (int i1 = 0; i1 < area.size(); i1++) {
 			Area a = area.get(i1);
-			String insertArea = "insert into AREAS values(" + a.getId() + "," + a.getAddress() + "," + a.getStart_date()
-					+ "," + a.getEnd_date() + "," + a.getWeekday_start_time() + "," + a.getWeekday_end_time() + ","
-					+ a.getWeekend_start_time() + "," + a.getWeekend_end_time() + "," + a.getMoney() + ","
-					+ a.getIs_alchoal_permitted() + "," + a.getCount() + ");";
+			String insertArea = "insert into AREAS values(default" + "," + a.getAddress() + "," + a.getStart_date()
+			+ "," + a.getEnd_date() + "," + a.getWeekday_start_time() + "," + a.getWeekday_end_time() + ","
+			+ a.getWeekend_start_time() + "," + a.getWeekend_end_time() + "," + a.getMoney() + ","
+			+ a.getIs_alchoal_permitted() + "," + a.getCount() + ");";
 			count++;
 			st.executeUpdate(insertArea);
 		}
+	}
+	
+	private static void insertPopulationRollup(Statement st) throws SQLException, IOException{
+		String insertPopulationRollup = "insert into POPULATION_ROLLUP\n" + 
+				"SELECT *\n" + 
+				"FROM (SELECT \n" + 
+				"		  CASE\n" + 
+				"		  	WHEN DISTRICT IS NULL THEN '전체'\n" + 
+				"		  ELSE DISTRICT\n" + 
+				"	  		END AS 도,\n" + 
+				"		  CASE\n" + 
+				"		  WHEN CITY IS NULL THEN '전체'\n" + 
+				"		  ELSE CITY\n" + 
+				"		  	END AS 시,\n" + 
+				"		  CASE\n" + 
+				"		  WHEN GU IS NULL\n" + 
+				"		  OR GU LIKE '' THEN '전체'\n" + 
+				"		  ELSE GU\n" + 
+				"		  END AS 군구 \n" + 
+				"	  ,POPULATIONS AS 인구수\n" + 
+				"		FROM\n" + 
+				"			(SELECT SPLIT_PART(REGION.REGION,' ',1) DISTRICT,\n" + 
+				"					SPLIT_PART(REGION.REGION,' ',2) CITY,\n" + 
+				"					SPLIT_PART(REGION.REGION,' ',3) GU,\n" + 
+				"					SUM(POPULATION.POPULATION) AS POPULATIONS\n" + 
+				"				FROM POPULATION\n" + 
+				"				JOIN REGION ON POPULATION.REGION_ID = REGION.ID\n" + 
+				"				GROUP BY ROLLUP(DISTRICT, CITY, GU)\n" + 
+				"				ORDER BY DISTRICT,\n" + 
+				"					CITY,\n" + 
+				"					GU) AS ROLLUPS) AS V\n" + 
+				"GROUP BY (V.도,V.시,V.군구,V.인구수)\n" + 
+				"ORDER BY (V.도,V.시);";
+		st.executeUpdate(insertPopulationRollup);
 	}
 
 	public static JSONArray apiResultFestival(String pageNum) throws IOException {
@@ -355,18 +390,6 @@ public class PalMaeGimBap {
 		urlBuilder.append(
 				"&" + URLEncoder.encode("type", "UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /* XML/JSON 여부 */
 
-		/*
-		 * 
-		 * 
-		 * urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") +
-		 * "=%2BOSwyW3ekDuCl8jp63XFAvi8J5oe4nWPL7uDQE9odRF8YcTQrNGv5nbEZc0ihfjijG17KNfF28ywMX%2FWeUXjTA%3D%3D"
-		 * ); "&" + URLEncoder.encode("pageNo", "UTF-8") + "=" +
-		 * URLEncoder.encode(pageNum, "UTF-8")); urlBuilder.append("&" +
-		 * URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("100",
-		 * "UTF-8")); urlBuilder.append( "&" + URLEncoder.encode("type", "UTF-8") + "="
-		 * + URLEncoder.encode("json", "UTF-8"));
-		 * 
-		 */
 
 		URL url1 = new URL(urlBuilder.toString());
 		HttpURLConnection conn1 = (HttpURLConnection) url1.openConnection();
@@ -441,9 +464,8 @@ public class PalMaeGimBap {
 
 		// area insert
 		for (FestivalInfos a : festivalinfos) {
-			String insertFestivalInfos = "insert into FESTIVAL_INFOS values(" + a.getId() + "," + a.getfName() + ","
+			String insertFestivalInfos = "insert into FESTIVAL_INFOS values(default"+ "," + a.getfName() + ","
 					+ a.getAddress() + ");";
-
 			st.executeUpdate(insertFestivalInfos);
 		}
 
@@ -625,44 +647,47 @@ public class PalMaeGimBap {
 
 			st = conn.createStatement();
 			// 초기화
-			//st.execute("DROP TRIGGER IF EXISTS FOODTRUCKSTATUS_INSERT_TRIGGER ON FOODTRUCK_STATUS RESTRICT");
-			//st.execute("DROP function IF EXISTS INSERT_FOODTRUCK() RESTRICT");
-			//st.execute("DROP VIEW IF EXISTS OPENING RESTRICT");
-			//st.execute("DROP TABLE IF EXISTS FESTIVAL_INFOS RESTRICT");
-			//st.execute("DROP TABLE IF EXISTS AREAS RESTRICT");
-			//st.execute("DROP TABLE IF EXISTS POPULATION RESTRICT");
-			//st.execute("DROP TABLE IF EXISTS FOODTRUCK_STATUS RESTRICT");
-			//st.execute("DROP TABLE IF EXISTS REGION RESTRICT");
+			st.execute("DROP TRIGGER IF EXISTS FOODTRUCKSTATUS_INSERT_TRIGGER ON FOODTRUCK_STATUS RESTRICT");
+			st.execute("DROP function IF EXISTS INSERT_FOODTRUCK() RESTRICT");
+			st.execute("DROP VIEW IF EXISTS OPENING RESTRICT");
+			st.execute("DROP TABLE IF EXISTS FESTIVAL_INFOS RESTRICT");
+			st.execute("DROP TABLE IF EXISTS AREAS RESTRICT");
+			st.execute("DROP TABLE IF EXISTS POPULATION RESTRICT");
+			st.execute("DROP TABLE IF EXISTS FOODTRUCK_STATUS RESTRICT");
+			st.execute("DROP TABLE IF EXISTS REGION RESTRICT");
+			st.execute("DROP TABLE IF EXISTS POPULATION_ROLLUP RESTRICT");
 
+			System.out.println("Creating AREAS, FESTIVAL_INFOS,POPULATION, FOODTRUCK_STATUS,REGION,POPULATION_ROLLUP relations");
+			// 테이블 생성 : Create table 문 이용
+			String AREAS = "Create Table AREAS(id SERIAL PRIMARY KEY, address VARCHAR(50),start_date VARCHAR(10), end_date VARCHAR(10), "
+					+ "weekday_start_time VARCHAR(10), weekday_end_time VARCHAR(10),"
+					+ "weekend_start_time VARCHAR(10), weekend_end_time VARCHAR(10),"
+					+ "money VARCHAR(50), is_alcohol_permitted boolean, count int)";
 
-
-//			System.out.println("Creating AREAS, FESTIVAL_INFOS,POPULATION, FOODTRUCK_STATUS,REGION relations");
-//			// 테이블 생성 : Create table 문 이용
-//			String AREAS = "Create Table AREAS(id int, address VARCHAR(50),start_date VARCHAR(10), end_date VARCHAR(10), "
-//					+ "weekday_start_time VARCHAR(10), weekday_end_time VARCHAR(10),"
-//					+ "weekend_start_time VARCHAR(10), weekend_end_time VARCHAR(10),"
-//					+ "money VARCHAR(50), is_alcohol_permitted boolean, count int, primary key(id))";
-//
-//			st.executeUpdate(AREAS);
-//			String FESTIVAL_INFO = "Create Table FESTIVAL_INFOS(id INT PRIMARY KEY,fName VARCHAR(50), address VARCHAR(50))";
-//			st.executeUpdate(FESTIVAL_INFO);
-//			String REGION = "Create Table REGION(id INT PRIMARY KEY, region VARCHAR(50));";
-//			st.executeUpdate(REGION);
-//			String POPULATION = "Create Table POPULATION(id INT PRIMARY KEY, region_id INT REFERENCES REGION(id), population int)";
-//			st.executeUpdate(POPULATION);
-//			String FOODTRUCK_STATUS = "Create Table FOODTRUCK_STATUS(id INT PRIMARY KEY, region_id INT REFERENCES REGION(id), name VARCHAR(50), status VARCHAR(20), street_name_address VARCHAR(100), lot_address VARCHAR(100));";
-//			st.executeUpdate(FOODTRUCK_STATUS);
-
-//			insertArea(st);
-//			insertFestival(st);
-//			insertRegion(st);
-//			insertFoodTruckStatus(st);
-//			insertPopulation(st);
-
+			st.executeUpdate(AREAS);
+			String FESTIVAL_INFO = "Create Table FESTIVAL_INFOS(id SERIAL PRIMARY KEY,fName VARCHAR(50), address VARCHAR(50))";
+			st.executeUpdate(FESTIVAL_INFO);
+			String REGION = "Create Table REGION(id SERIAL PRIMARY KEY, region VARCHAR(50));";
+			st.executeUpdate(REGION);
+			String POPULATION = "Create Table POPULATION(id SERIAL PRIMARY KEY, region_id INT REFERENCES REGION(id) on delete cascade, population int)";
+			st.executeUpdate(POPULATION);
+			String FOODTRUCK_STATUS = "Create Table FOODTRUCK_STATUS(id SERIAL PRIMARY KEY, region_id INT REFERENCES REGION(id) on delete set null,"
+					+ " name VARCHAR(50), status VARCHAR(20), street_name_address VARCHAR(100), lot_address VARCHAR(100));";
+			st.executeUpdate(FOODTRUCK_STATUS);
+			String POPULATION_ROLLUP = "Create Table POPULATION_ROLLUP(도 varchar(10),시 varchar(10), 군구 varchar(10), 인구수 int);";
+			st.executeUpdate(POPULATION_ROLLUP);
+			
+			insertArea(st);
+			insertFestival(st);
+			insertRegion(st);
+			insertFoodTruckStatus(st);
+			insertPopulation(st);
+			insertPopulationRollup(st);
+			
 			String OPENING_VIEW = "create view opening as\n"
 					+ "select id,region_id,name,street_name_address,lot_address\n" + "from FOODTRUCK_STATUS\n"
 					+ "where status = '영업';";
-			//st.executeUpdate(OPENING_VIEW);
+			st.executeUpdate(OPENING_VIEW);
 
 			String CREATE_FUNCTION = "CREATE OR REPLACE FUNCTION INSERT_FOODTRUCK() RETURNS TRIGGER AS $$\n" + "BEGIN\n"
 					+ "    update foodtruck_status set region_id = COALESCE((select id from region where region.region\n"
@@ -675,7 +700,7 @@ public class PalMaeGimBap {
 			String CREATE_TRIGGER = "CREATE TRIGGER FOODTRUCKSTATUS_INSERT_TRIGGER AFTER\n"
 					+ "INSERT ON \"foodtruck_status\" EXECUTE PROCEDURE INSERT_FOODTRUCK();";
 
-			//st.executeUpdate(CREATE_TRIGGER);
+			st.executeUpdate(CREATE_TRIGGER);
 			System.out.println("*************************************************************************");
 			System.out.println("*\t\t\t\t\t\t\t\t\t*");
 			System.out.println("*\t\t\t팔매김밥조 장지석 고예준 홍수민\t\t\t\t*");
@@ -686,13 +711,14 @@ public class PalMaeGimBap {
 
 			while (true) {
 				System.out.println();
-				System.out.println("*********************************************************************");
+				System.out.println("*************************************************************************");
 				System.out.println();
 
 				System.out.println("원하는 버전을 선택하시오.");
 				System.out.println("1)고객 버전");
 				System.out.println("2)관리자 버전");
-
+				
+				System.out.println("---------------------------------------------------------------------");
 				int version = scan.nextInt();
 
 				if (version == 1) {
@@ -741,7 +767,7 @@ public class PalMaeGimBap {
 								+ " where is_alcohol_permitted = ? and address like ? || '%' and address like '%' || ? || '%' limit 6;";
 						p = conn.prepareStatement(queryAdd);
 						p.clearParameters();
-						if (alcohol == "Y") {
+						if (alcohol.equalsIgnoreCase("Y")) {
 							p.setBoolean(1, true);
 						} else {
 							p.setBoolean(1, false);
@@ -955,47 +981,48 @@ public class PalMaeGimBap {
 						System.out.println("=====================================================================");
 						System.out.println();
 
-					}
-					else if(menu==4) {
+					} else if (menu == 4) {
 						System.out.println("지역별 인구수 조회 모드를 선택하셨습니다.");
-						System.out.println("인구 수를 조회 할 지역을 입력하시오.");
+						System.out.println("인구수를 조회하고 싶은 지역(도 or 시 or 군/구)을 입력하세요.");
 						Scanner scan2 = new Scanner(System.in);
-						String reg = scan2.nextLine();
-						//select sum(population) from population join region on population.id=region.id where region like'%서울특별시 중구%';
-						System.out.println(reg);
-						p = conn.prepareStatement("select sum(population) from population join region on population.id=region.id where region like '%"+reg+"%'");
+						String city = scan2.nextLine();
+
+						String query="select * from POPULATION_ROLLUP \n" + 
+								"where 도 like '%' || ? || '%' or 시 like '%' || ? || '%' "
+								+ "or 군구 like '%' || ? || '%';";
+						p = conn.prepareStatement(query);
+						p.clearParameters();
+						p.setString(1, city);
+						p.setString(2, city);
+						p.setString(3, city);
 						r = p.executeQuery();
-						
-						System.out.println("["+reg+"인구수]");
-                        System.out.println();
-                        
-                        ResultSetMetaData rsmd;
-                        rsmd=r.getMetaData();
-                        
-                        int p_col = rsmd.getColumnCount();
-                        while(r.next()) {
-                          
-                           for(int i=1;i<=p_col;i++) {
-                              if(i==1) {
-                                 System.out.print(reg+" : ");
-                              }
-                              System.out.println(r.getObject(i)+" ");
-                                 
-                           }
-                           System.out.println();
-                        }
-						
-						
+
+						System.out.println();
+
+						ResultSetMetaData rsmd;
+						rsmd = r.getMetaData();
+
+						System.out.printf("[%s 지역 인구수]\n",city);
+						int p_col = rsmd.getColumnCount();
+						while (r.next()) {
+
+							for (int i = 1; i <= p_col; i++) {
+								System.out.print(r.getObject(i) + " ");
+							}
+							System.out.println();
+						}
+
 					}
 
 				}
 
 				else if (version == 2) {
+					System.out.println("---------------------------------------------------------------------");
 					System.out.println("관리자 버전을 선택하였습니다.");
 					System.out.println("원하는 번호를 입력하시오.");
 					System.out.println("1)푸드트럭 현황 관리");
 					System.out.println("2)문화축제 정보 관리");
-					System.out.println("3)지역 업데이트");
+					System.out.println("3)지역정보 관리");
 
 					int adminstate = scan.nextInt();
 
@@ -1009,9 +1036,9 @@ public class PalMaeGimBap {
 						r = p.executeQuery();
 
 						int pid, region_id;
-						String name, status, street_name_address, lot_address;
+						String name, status = "", street_name_address, lot_address;
 
-						System.out.println("(pid,region_id,name,status,street_name_address,lot_address)");
+						
 
 						while (r.next()) {
 							pid = r.getInt(1);
@@ -1021,13 +1048,13 @@ public class PalMaeGimBap {
 							street_name_address = r.getString(5);
 							lot_address = r.getString(6);
 
-							System.out.printf("|%-4d|%-4d|%-20s|%-20s|%-20s\n", pid, region_id, name, status,
+							System.out.printf("|%-4d|%-4d|%-35s|%-5s|%-40s|%-40s|\n", pid, region_id, name, status,
 									street_name_address, lot_address);
 						}
 
-						System.out.println("1) 허가 구역 추가하기");
-						System.out.println("2) 허가 구역 삭제하기 ");
-						System.out.println("3) 허가 구역 수정하기 ");
+						System.out.println("\n1) 푸드트럭 현황 추가하기");
+						System.out.println("2) 푸드트럭 현황 삭제하기 ");
+						System.out.println("3) 푸드트럭 현황 수정하기 ");
 						System.out.println("4) 첫 화면으로 돌아가기 ");
 						System.out.print("입력 : ");
 
@@ -1035,83 +1062,219 @@ public class PalMaeGimBap {
 						System.out.println();
 
 						if (crud == 1) {
-							System.out.println("푸드트럭 이름을 입력하세요 ");
+		                     Scanner scan5 = new Scanner(System.in);
+		                     System.out.println("푸드트럭 현황 추가하기 모드입니다.");
+		                     System.out.println("푸드트럭 이름을 입력하세요 ");
+		                     String ft_name = scan5.nextLine();
+		                     System.out.println("푸드트럭 영업 현황을 입력하세요");
+		                     String ft_state = scan5.nextLine();
+		                     
+		                     System.out.println("지역을 입력하세요(도 시 군/구를 모두 입력하세요)");
+		                     String ft_re = scan5.nextLine();
+		                     
+		                     int ft_rid=0;
+		                     p = conn.prepareStatement("select id from REGION where region='"+ft_re+"'");
+		                     r=p.executeQuery();
+		                     
+		                     while(r.next()) {
+		                        ft_rid=r.getInt(1);
+		                     }
+//		                    System.out.println(ft_re);
+//		                     System.out.println(ft_rid);
+		                     
+		                     
+		                     System.out.println("주소를 입력하세요");
+		                     String ft_add=scan5.nextLine();
+//		                     
+		                     
+		                              
+		                           st.executeUpdate("insert into foodtruck_status values(default,"+Integer.toString(ft_rid)+",'"+ft_name+"','"+ft_state+"','"+ft_add+"','"+ft_add+"')");
+		                            //p.executeUpdate();
+		                     
+		                     
 
-						} else if (crud == 2) {
+		                  } else if (crud == 2) {
+							System.out.println("푸드트럭 현황 삭제모드입니다.");
+							System.out.println("삭제할 푸드트럭 이름을 기입하시오.");
+							System.out.println();
+							System.out.println("푸드트럭 이름 :");
+							Scanner scan3 = new Scanner(System.in);
+							String fst_delete_name = scan3.nextLine();
 
+							st.executeUpdate("delete from FOODTRUCK_STATUS where name='" + fst_delete_name + "'");
+							
+							//System.out.println("delete from FOODTRUCK_STATUS where name='" + fst_delete_name + "'");
+							System.out.println("삭제가 완료되었습니다.");
 						} else if (crud == 3) {
+							System.out.println("푸드트럭 현황 수정모드입니다.");
+							System.out.println("수정할 푸드트럭 이름을 입력하세요");
+							Scanner scan3 = new Scanner(System.in);
+							String foodtruck_name = scan3.nextLine();
+							
+							System.out.println("\n현재 입력한 푸드트럭의 상황입니다.");
+							String query = "select * from FOODTRUCK_STATUS where name='"+foodtruck_name+"';";
+							p = conn.prepareStatement(query);
+							r = p.executeQuery();
+							
+							while (r.next()) {
+								pid = r.getInt(1);
+								region_id = r.getInt(2);
+								name = r.getString(3);
+								status = r.getString(4);
+								street_name_address = r.getString(5);
+								lot_address = r.getString(6);
 
+								System.out.printf("|%-4d|%-4d|%-20s|%-20s|%-20s\n", pid, region_id, name, status,
+										street_name_address, lot_address);
+							}
+														
+							System.out.println("영업 상태를 수정하시겠습니까?(Y/N)");
+							String yesOrNo = scan3.nextLine();
+							
+							if(yesOrNo.equalsIgnoreCase("Y")) {
+								if(status.equalsIgnoreCase("영업")) {
+									String query2 = "update FOODTRUCK_STATUS"
+											+ " set status='폐업'"
+											+ " where name='"+foodtruck_name+"';";
+									
+									st.executeUpdate(query2);
+									
+									System.out.println("수정이 완료되었습니다.");
+									
+									
+								}else {
+									String query2 = "update FOODTRUCK_STATUS"
+											+ " set status='영업'"
+											+ " where name='"+foodtruck_name+"';";
+									
+									st.executeUpdate(query2);
+									
+									System.out.println("수정이 완료되었습니다.");
+								}
+							}else {
+								System.out.println("관리자 모드를 종료합니다. ");
+								continue;
+							}
+							
 						} else {
 							continue;
 						}
 
-					} else if(adminstate==2) {
-                        System.out.println("문화축제 정보 관리를 선택하셨습니다.");
-                        p = conn.prepareStatement("select * from FESTIVAL_INFOS");
-                        r=p.executeQuery();
-                        
-                            ResultSetMetaData rsmd;
-                            rsmd=r.getMetaData();
-                               
-                            System.out.println();
-                            int cu_col = rsmd.getColumnCount();
-                            System.out.println("=====================================================================");
-                            
-                            System.out.println("[문화 축제 정보]");
-                            System.out.println();
-                            int fcnt=-1;
-                            while(r.next()) {
-                              fcnt++;
-                               for(int i=1;i<=cu_col;i++) {
-                                  if(i==2) {
-                                     System.out.print("축제이름 : ");
-                                  }
-                                     
-                                  if(i==3) {
-                                     System.out.print("주소 : ");
-                                  }
-                                  System.out.println(r.getObject(i)+" ");
-                                     
-                               }
-                               System.out.println();
-                            }
-                            fcnt++;
-                            System.out.println("=====================================================================");
-                        System.out.println("1)문화축제 정보 추가");
-                        System.out.println("2)문화축제 정보 삭제");
-                        
-                        int ct_infos=scan.nextInt();
-                        
-                        if(ct_infos==1) {
-                           System.out.println("문화축제 정보 추가모드 입니다.");
-                           System.out.println("정보를 기입하시오.");
-                           System.out.println();
-                           System.out.println("축제 이름 :");
-                           String fst_name=scan.next();
-                           
-                           System.out.println("축제 개최 주소 :");
-                           String fst_addr=scan.next();
-                           
-                           st.executeUpdate("insert into FESTIVAL_INFOS values("+fcnt+",'"+fst_name+"','"+fst_addr+"')");
-                           System.out.println("insert into FESTIVAL_INFOS values("+fcnt+",'"+fst_name+"','"+fst_addr+"')");
-                           //p.executeUpdate();
-                           
-                           
-                        }
-                        else if(ct_infos==2) {
-                           System.out.println("문화축제 정보 삭제모드입니다.");
-                           System.out.println("삭제할 문화축제 이름을 기입하시오.");
-                           System.out.println();
-                           System.out.println("축제 이름 :");
-                           String fst_delete_name=scan.next();
-                           
-                           st.executeUpdate("delete from FESTIVAL_INFOS where fname='"+fst_delete_name+"'");
-                           
-                        }
+					} else if (adminstate == 2) {
+						System.out.println("문화축제 정보 관리를 선택하셨습니다.");
+						p = conn.prepareStatement("select * from FESTIVAL_INFOS");
+						r = p.executeQuery();
+
+						ResultSetMetaData rsmd;
+						rsmd = r.getMetaData();
+
+						System.out.println();
+						int cu_col = rsmd.getColumnCount();
+						System.out.println("=====================================================================");
+
+						System.out.println("[문화 축제 정보]");
+						System.out.println();
+						int fcnt = -1;
+						while (r.next()) {
+							fcnt++;
+							for (int i = 1; i <= cu_col; i++) {
+								if (i == 2) {
+									System.out.print("축제이름 : ");
+								}
+
+								if (i == 3) {
+									System.out.print("주소 : ");
+								}
+								System.out.println(r.getObject(i) + " ");
+
+							}
+							System.out.println();
+						}
+						fcnt++;
+						System.out.println("=====================================================================");
+						System.out.println("1)문화축제 정보 추가");
+						System.out.println("2)문화축제 정보 삭제");
+
+						int ct_infos = scan.nextInt();
+
+						if (ct_infos == 1) {
+							System.out.println("문화축제 정보 추가모드 입니다.");
+							System.out.println("정보를 기입하시오.");
+							System.out.println();
+							System.out.println("축제 이름 :");
+							Scanner scan9 = new Scanner(System.in);
+							String fst_name = scan9.nextLine();
+
+							System.out.println("축제 개최 주소 :");
+							String fst_addr = scan9.nextLine();
+
+							st.executeUpdate("insert into FESTIVAL_INFOS values(default,'" + fst_name + "','"
+									+ fst_addr + "')");
+
+							// p.executeUpdate();
+
+						} else if (ct_infos == 2) {
+							System.out.println("문화축제 정보 삭제모드입니다.");
+							System.out.println("삭제할 문화축제 이름을 기입하시오.");
+							System.out.println();
+							System.out.println("축제 이름 :");							
+							Scanner scan9 = new Scanner(System.in);
+							String fst_delete_name = scan9.nextLine();
+
+							st.executeUpdate("delete from FESTIVAL_INFOS where fname='" + fst_delete_name + "'");
+							//System.out.println("delete from FESTIVAL_INFOS where fname='" + fst_delete_name + "'");
+						}
+					} else if (adminstate == 3) {
+						System.out.println("지역정보 관리를 선택하셨습니다.");
+						p = conn.prepareStatement("select * from REGION");
+						r = p.executeQuery();
+
+						ResultSetMetaData rsmd;
+						rsmd = r.getMetaData();
+
+						System.out.println();
+						int cu_col = rsmd.getColumnCount();
+						System.out.println("=====================================================================");
+
+						System.out.println("[지역별 정보]");
+						System.out.println();
+						int fcnt = -1;
+						while (r.next()) {
+							fcnt++;
+							for (int i = 1; i <= cu_col; i++) {
+								if (i == 1) {
+									System.out.print("id : ");
+								}
+
+								if (i == 2) {
+									System.out.print("주소 : ");
+								}
+								System.out.println(r.getObject(i) + " ");
+
+							}
+							System.out.println();
+						}
+						fcnt++;
+						System.out.println("=====================================================================");
+						System.out.println("1)지역별 정보 삭제");
+						System.out.println("사용할 메뉴를 입력하세요");
+						int ct_infos = scan.nextInt();
+
+						if (ct_infos == 1) {
+							System.out.println("지역 정보 삭제 모드 입니다.");
+							System.out.println("정보를 기입하시오.");
+							System.out.println("삭제할 지역 이름 :");
+							Scanner scan2 = new Scanner(System.in);
+							String del_name = scan2.nextLine();
+							System.out.println();
+							st.executeUpdate("delete from REGION where region = '" + del_name + "';");
+
+							//System.out.println("delete from REGION where region = '" + del_name + "';");
+							// p.executeUpdate();
+
+						}
 					}
-					else if(adminstate==3) {
-						System.out.println("지역 업데이트 모드입니다.");
-					}
+
 				}
 
 			}
